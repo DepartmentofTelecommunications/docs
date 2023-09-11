@@ -1,0 +1,210 @@
+---Git--distributed-is-the-new-centralized
+Search entire site...
+
+About
+Documentation
+Reference
+Book
+Videos
+External Links
+Downloads
+Community
+English ▾Topics ▾Version 2.42.0 ▾
+git-remote last updated in 2.42.0
+NAME
+git-remote - Manage set of tracked repositories
+
+SYNOPSIS
+git remote [-v | --verbose]
+git remote add [-t <branch>] [-m <master>] [-f] [--[no-]tags] [--mirror=(fetch|push)] <name> <URL>
+git remote rename [--[no-]progress] <old> <new>
+git remote remove <name>
+git remote set-head <name> (-a | --auto | -d | --delete | <branch>)
+git remote set-branches [--add] <name> <branch>…​
+git remote get-url [--push] [--all] <name>
+git remote set-url [--push] <name> <newurl> [<oldurl>]
+git remote set-url --add [--push] <name> <newurl>
+git remote set-url --delete [--push] <name> <URL>
+git remote [-v | --verbose] show [-n] <name>…​
+git remote prune [-n | --dry-run] <name>…​
+git remote [-v | --verbose] update [-p | --prune] [(<group> | <remote>)…​]
+DESCRIPTION
+Manage the set of repositories ("remotes") whose branches you track.
+
+OPTIONS
+-v
+--verbose
+Be a little more verbose and show remote url after name. For promisor remotes, also show which filter (blob:none etc.) are configured. NOTE: This must be placed between remote and subcommand.
+
+COMMANDS
+With no arguments, shows a list of existing remotes. Several subcommands are available to perform operations on the remotes.
+
+add
+Add a remote named <name> for the repository at <URL>. The command git fetch <name> can then be used to create and update remote-tracking branches <name>/<branch>.
+
+With -f option, git fetch <name> is run immediately after the remote information is set up.
+
+With --tags option, git fetch <name> imports every tag from the remote repository.
+
+With --no-tags option, git fetch <name> does not import tags from the remote repository.
+
+By default, only tags on fetched branches are imported (see git-fetch[1]).
+
+With -t <branch> option, instead of the default glob refspec for the remote to track all branches under the refs/remotes/<name>/ namespace, a refspec to track only <branch> is created. You can give more than one -t <branch> to track multiple branches without grabbing all branches.
+
+With -m <master> option, a symbolic-ref refs/remotes/<name>/HEAD is set up to point at remote’s <master> branch. See also the set-head command.
+
+When a fetch mirror is created with --mirror=fetch, the refs will not be stored in the refs/remotes/ namespace, but rather everything in refs/ on the remote will be directly mirrored into refs/ in the local repository. This option only makes sense in bare repositories, because a fetch would overwrite any local commits.
+
+When a push mirror is created with --mirror=push, then git push will always behave as if --mirror was passed.
+
+rename
+Rename the remote named <old> to <new>. All remote-tracking branches and configuration settings for the remote are updated.
+
+In case <old> and <new> are the same, and <old> is a file under $GIT_DIR/remotes or $GIT_DIR/branches, the remote is converted to the configuration file format.
+
+remove
+rm
+Remove the remote named <name>. All remote-tracking branches and configuration settings for the remote are removed.
+
+set-head
+Sets or deletes the default branch (i.e. the target of the symbolic-ref refs/remotes/<name>/HEAD) for the named remote. Having a default branch for a remote is not required, but allows the name of the remote to be specified in lieu of a specific branch. For example, if the default branch for origin is set to master, then origin may be specified wherever you would normally specify origin/master.
+
+With -d or --delete, the symbolic ref refs/remotes/<name>/HEAD is deleted.
+
+With -a or --auto, the remote is queried to determine its HEAD, then the symbolic-ref refs/remotes/<name>/HEAD is set to the same branch. e.g., if the remote HEAD is pointed at next, git remote set-head origin -a will set the symbolic-ref refs/remotes/origin/HEAD to refs/remotes/origin/next. This will only work if refs/remotes/origin/next already exists; if not it must be fetched first.
+
+Use <branch> to set the symbolic-ref refs/remotes/<name>/HEAD explicitly. e.g., git remote set-head origin master will set the symbolic-ref refs/remotes/origin/HEAD to refs/remotes/origin/master. This will only work if refs/remotes/origin/master already exists; if not it must be fetched first.
+
+set-branches
+Changes the list of branches tracked by the named remote. This can be used to track a subset of the available remote branches after the initial setup for a remote.
+
+The named branches will be interpreted as if specified with the -t option on the git remote add command line.
+
+With --add, instead of replacing the list of currently tracked branches, adds to that list.
+
+get-url
+Retrieves the URLs for a remote. Configurations for insteadOf and pushInsteadOf are expanded here. By default, only the first URL is listed.
+
+With --push, push URLs are queried rather than fetch URLs.
+
+With --all, all URLs for the remote will be listed.
+
+set-url
+Changes URLs for the remote. Sets first URL for remote <name> that matches regex <oldurl> (first URL if no <oldurl> is given) to <newurl>. If <oldurl> doesn’t match any URL, an error occurs and nothing is changed.
+
+With --push, push URLs are manipulated instead of fetch URLs.
+
+With --add, instead of changing existing URLs, new URL is added.
+
+With --delete, instead of changing existing URLs, all URLs matching regex <URL> are deleted for remote <name>. Trying to delete all non-push URLs is an error.
+
+Note that the push URL and the fetch URL, even though they can be set differently, must still refer to the same place. What you pushed to the push URL should be what you would see if you immediately fetched from the fetch URL. If you are trying to fetch from one place (e.g. your upstream) and push to another (e.g. your publishing repository), use two separate remotes.
+
+show
+Gives some information about the remote <name>.
+
+With -n option, the remote heads are not queried first with git ls-remote <name>; cached information is used instead.
+
+prune
+Deletes stale references associated with <name>. By default, stale remote-tracking branches under <name> are deleted, but depending on global configuration and the configuration of the remote we might even prune local tags that haven’t been pushed there. Equivalent to git fetch --prune <name>, except that no new references will be fetched.
+
+See the PRUNING section of git-fetch[1] for what it’ll prune depending on various configuration.
+
+With --dry-run option, report what branches would be pruned, but do not actually prune them.
+
+update
+Fetch updates for remotes or remote groups in the repository as defined by remotes.<group>. If neither group nor remote is specified on the command line, the configuration parameter remotes.default will be used; if remotes.default is not defined, all remotes which do not have the configuration parameter remote.<name>.skipDefaultUpdate set to true will be updated. (See git-config[1]).
+
+With --prune option, run pruning against all the remotes that are updated.
+
+DISCUSSION
+The remote configuration is achieved using the remote.origin.url and remote.origin.fetch configuration variables. (See git-config[1]).
+
+EXIT STATUS
+On success, the exit status is 0.
+
+When subcommands such as add, rename, and remove can’t find the remote in question, the exit status is 2. When the remote already exists, the exit status is 3.
+
+On any other error, the exit status may be any other non-zero value.
+
+EXAMPLES
+Add a new remote, fetch, and check out a branch from it
+
+$ git remote
+origin
+$ git branch -r
+  origin/HEAD -> origin/master
+  origin/master
+$ git remote add staging git://git.kernel.org/.../gregkh/staging.git
+$ git remote
+origin
+staging
+$ git fetch staging
+...
+From git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging
+ * [new branch]      master     -> staging/master
+ * [new branch]      staging-linus -> staging/staging-linus
+ * [new branch]      staging-next -> staging/staging-next
+$ git branch -r
+  origin/HEAD -> origin/master
+  origin/master
+  staging/master
+  staging/staging-linus
+  staging/staging-next
+$ git switch -c staging staging/master
+...
+Imitate git clone but track only selected branches
+
+$ mkdir project.git
+$ cd project.git
+$ git init
+$ git remote add -f -t master -m master origin git://example.com/git.git/
+$ git merge origin
+SEE ALSO
+git-fetch[1] git-branch[1] git-config[1]
+
+GIT
+Part of the git[1] suite
+
+About this site
+Patches, suggestions, and comments are welcome.
+Git is a member of Software Freedom Conservancy
+scroll-to-top
+title: GitHub Bug Bounty Program Legal Safe Harbor
+redirect_from:
+  - /articles/github-bug-bounty-program-legal-safe-harbor
+versions:
+  fpt: '*'
+topics:
+  - Policy
+  - Legal
+---
+
+## Summary
+
+1. We want you to coordinate disclosure through our bug bounty program, and don't want researchers put in fear of legal consequences because of their good faith attempts to comply with our bug bounty policy. We cannot bind any third party, so do not assume this protection extends to any third party. If in doubt, ask us before engaging in any specific action you think _might_ go outside the bounds of our policy.
+1. Because both identifying and non-identifying information can put a researcher at risk, we limit what we share with third parties. We may provide non-identifying substantive information from your report to an affected third party, but only after notifying you and receiving a commitment that the third party will not pursue legal action against you. We will only share identifying information (name, email address, phone number, etc.) with a third party if you give your written permission.
+1. If your security research as part of the bug bounty program violates certain restrictions in our site policies, the safe harbor terms permit a limited exemption.
+
+## 1. Safe Harbor Terms
+
+To encourage research and coordinated disclosure of security vulnerabilities, we will not pursue civil or criminal action, or send notice to law enforcement for accidental or good faith violations of this policy. We consider security research and vulnerability disclosure activities conducted consistent with this policy to be “authorized” conduct under the Computer Fraud and Abuse Act, the DMCA, and other applicable computer use laws such as Cal. Penal Code 502(c). We waive any potential DMCA claim against you for circumventing the technological measures we have used to protect the applications in this bug bounty program's scope.
+
+Please understand that if your security research involves the networks, systems, information, applications, products, or services of a third party (which is not us), we cannot bind that third party, and they may pursue legal action or law enforcement notice. We cannot and do not authorize security research in the name of other entities, and cannot in any way offer to defend, indemnify, or otherwise protect you from any third party action based on your actions.
+
+You are expected, as always, to comply with all laws applicable to you, and not to disrupt or compromise any data beyond what this bug bounty program permits.
+
+Please contact us before engaging in conduct that may be inconsistent with or unaddressed by this policy. We reserve the sole right to make the determination of whether a violation of this policy is accidental or in good faith, and proactive contact to us before engaging in any action is a significant factor in that decision. If in doubt, ask us first!
+
+## 2. Third Party Safe Harbor
+
+If you submit a report through our bug bounty program which affects a third party service, we will limit what we share with any affected third party. We may share non-identifying content from your report with an affected third party, but only after notifying you that we intend to do so and getting the third party's written commitment that they will not pursue legal action against you or initiate contact with law enforcement based on your report. We will not share your identifying information with any affected third party without first getting your written permission to do so.
+
+Please note that we cannot authorize out-of-scope testing in the name of third parties, and such testing is beyond the scope of our policy. Refer to that third party's bug bounty policy, if they have one, or contact the third party either directly or through a legal representative before initiating any testing on that third party or their services. This is not, and should not be understood as, any agreement on our part to defend, indemnify, or otherwise protect you from any third party action based on your actions.
+
+That said, if legal action is initiated by a third party, including law enforcement, against you because of your participation in this bug bounty program, and you have sufficiently complied with our bug bounty policy (i.e. have not made intentional or bad faith violations), we will take steps to make it known that your actions were conducted in compliance with this policy. While we consider submitted reports both confidential and potentially privileged documents, and protected from compelled disclosure in most circumstances, please be aware that a court could, despite our objections, order us to share information with a third party.
+
+## 3. Limited Waiver of Other Site Polices
+
+To the extent that your security research activities are inconsistent with certain restrictions in our [relevant site policies](/site-policy) but consistent with the terms of our bug bounty program, we waive those restrictions for the sole and limited purpose of permitting your security research under this bug bounty program. Just like above, if in doubt, ask us first!
