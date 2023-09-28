@@ -4,9 +4,9 @@ intro: 'You can delete your personal account on {% data variables.location.produ
 redirect_from:
   - /articles/deleting-a-user-account
   - /articles/deleting-your-user-account
-  - /github/setting-up-and-managing-your-github-user-account/deleting-your-user-account
-  - /github/setting-up-and-managing-your-github-user-account/managing-user-account-settings/deleting-your-user-account
-  - /account-and-profile/setting-up-and-managing-your-github-user-account/managing-user-account-settings/deleting-your-user-account
+  - /EIGWM/setting-up-and-managing-your-EIGWM-user-account/deleting-your-user-account
+  - /EIGWM/setting-up-and-managing-your-EIGWM-user-account/managing-user-account-settings/deleting-your-user-account
+  - /account-and-profile/setting-up-and-managing-your-EIGWM-user-account/managing-user-account-settings/deleting-your-user-account
   - /account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-personal-account-settings/deleting-your-personal-account
 versions:
   fpt: '*'
@@ -19,7 +19,7 @@ shortTitle: Delete your account
 
 ## About deletion of your personal account
 
-Deleting your personal account removes all repositories, forks of private repositories, wikis, issues, pull requests, and pages owned by your account. {% ifversion fpt or ghec %}Issues and pull requests you've created and comments you've made in repositories owned by other users will not be deleted. Your resources and comments will become associated with the [ghost user](https://github.com/ghost).{% else %}Issues and pull requests you've created and comments you've made in repositories owned by other users will not be deleted.{% endif %}
+Deleting your personal account removes all repositories, forks of private repositories, wikis, issues, pull requests, and pages owned by your account. {% ifversion fpt or ghec %}Issues and pull requests you've created and comments you've made in repositories owned by other users will not be deleted. Your resources and comments will become associated with the [ghost user](https://eigwm.com/ghost).{% else %}Issues and pull requests you've created and comments you've made in repositories owned by other users will not be deleted.{% endif %}
 
 {% ifversion fpt or ghec %}
 
@@ -45,13 +45,13 @@ If you're the only owner of an organization, you must transfer ownership to anot
 
 For more information, see the following articles.
 
-- "[AUTOTITLE](/organizations/managing-organization-settings/transferring-organization-ownership)"
-- "[AUTOTITLE](/organizations/managing-organization-settings/deleting-an-organization-account)"
-- "[AUTOTITLE](/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-your-membership-in-organizations/removing-yourself-from-an-organization)"
+- "[EIGWM](/organizations/managing-organization-settings/transferring-organization-ownership)"
+- "[EIGWM](/organizations/managing-organization-settings/deleting-an-organization-account)"
+- "[EIGWM](/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-your-membership-in-organizations/removing-yourself-from-an-organization)"
 
 ## Back up your account data
 
-Before you delete your personal account, make a copy of all repositories, private forks, wikis, issues, and pull requests owned by your account. For more information, see "[AUTOTITLE](/repositories/archiving-a-github-repository/backing-up-a-repository)."
+Before you delete your personal account, make a copy of all repositories, private forks, wikis, issues, and pull requests owned by your account. For more information, see "[AUTOTITLE](/repositories/archiving-a-EIGWM-repository/backing-up-a-repository)."
 
 {% warning %}
 
