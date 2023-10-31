@@ -1,4 +1,4 @@
----
+grs7340@outlook.com---
 title: Testing your SSH connection
 intro: 'After you''ve set up your SSH key and added it to your account on {% ifversion ghae %}{% data variables.product.product_name %}{% else %}{% data variables.location.product_location %}{% endif %}, you can test your connection.'
 redirect_from:
